@@ -157,7 +157,7 @@ class CommentBuilder {
         if (preserveFormatting) {
             comment.append(String.format("%s\n", customComment));
         } else {
-            comment.append(String.format("```\n%s\n```\n\n", customComment));
+            comment.append(String.format("```\nlines=5\n%s\n```\n\n", customComment));
         }
     }
 
