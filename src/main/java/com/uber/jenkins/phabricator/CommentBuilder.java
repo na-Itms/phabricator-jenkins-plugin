@@ -134,16 +134,16 @@ class CommentBuilder {
             boolean runHarbormaster) {
         if (result == Result.SUCCESS) {
             if (comment.length() == 0 && (commentOnSuccess || !runHarbormaster)) {
-                comment.append("Build is green");
+                comment.append("Successful build - Chance fights ever on the side of the prudent.");
             }
         } else if (result == Result.UNSTABLE) {
-            comment.append("Build is unstable");
+            comment.append("Build is unstable, some tests have failed - The Moirai have given mortals hearts that can endure.");
         } else if (result == Result.FAILURE) {
             if (!runHarbormaster || commentWithConsoleLinkOnFailure) {
-                comment.append("Build has FAILED");
+                comment.append("Build failure - The Moirai have given mortals hearts that can endure.");
             }
         } else if (result == Result.ABORTED) {
-            comment.append("Build was aborted");
+            comment.append("Build was aborted.");
         } else {
             logger.info(UBERALLS_TAG, "Unknown build status " + result.toString());
         }
@@ -166,7 +166,7 @@ class CommentBuilder {
         if (preserveFormatting) {
             comment.append(String.format("%s\n", customComment));
         } else {
-            comment.append(String.format("```\n%s\n```\n\n", customComment));
+            comment.append(String.format("```\nlines=5\n%s\n```\n\n", customComment));
         }
     }
 
@@ -183,7 +183,7 @@ class CommentBuilder {
      * Add a build link to the comment
      */
     void addBuildLink() {
-        comment.append(String.format("\nSee %s for more details.", buildURL));
+        comment.append(String.format("\n\nLink to build: %s", buildURL));
     }
 
     /**
@@ -191,6 +191,5 @@ class CommentBuilder {
      */
     void addBuildFailureMessage() {
         comment.append(String.format("\n\nLink to build: %s", buildURL));
-        comment.append(String.format("\nSee console output for more information: %sconsole", buildURL));
     }
 }

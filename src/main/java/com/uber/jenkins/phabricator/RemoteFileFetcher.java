@@ -73,13 +73,7 @@ public class RemoteFileFetcher {
 
         FilePath source = src[0];
 
-        int maxLength = DEFAULT_MAX_SIZE;
-        if (!CommonUtils.isBlank(maxSize)) {
-            maxLength = parseInt(maxSize, 10);
-        }
-        if (source.length() < maxLength) {
-            maxLength = (int) source.length();
-        }
+        int maxLength = (int)source.length();
         byte[] buffer = new byte[maxLength];
         InputStream stream = source.read();
 

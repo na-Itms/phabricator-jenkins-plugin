@@ -176,14 +176,14 @@ public class CommentBuilderTest {
     @Test
     public void testProcessBuildResultSuccessWithComment() {
         commenter.processBuildResult(Result.SUCCESS, true, false, false);
-        assertEquals("Build is green", commenter.getComment());
+        assertEquals("Successful build - Chance fights ever on the side of the prudent.", commenter.getComment());
     }
 
     @Test
     public void testProcessBuildResultUnstable() {
         CommentBuilder commenter = createCommenter(null);
         commenter.processBuildResult(Result.UNSTABLE, true, false, false);
-        assertEquals("Build is unstable", commenter.getComment());
+        assertEquals("Build is unstable, some tests have failed - The Moirai have given mortals hearts that can endure.", commenter.getComment());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class CommentBuilderTest {
     public void testProcessBuildResultWithFailureMessage() {
         CommentBuilder commenter = createCommenter(null);
         commenter.processBuildResult(Result.FAILURE, false, true, false);
-        assertEquals("Build has FAILED", commenter.getComment());
+        assertEquals("Build failure - The Moirai have given mortals hearts that can endure.", commenter.getComment());
     }
 
     @Test
@@ -211,13 +211,13 @@ public class CommentBuilderTest {
     public void testProcessBuildResultAborted() {
         CommentBuilder commenter = createCommenter(null);
         commenter.processBuildResult(Result.ABORTED, false, false, false);
-        assertEquals("Build was aborted", commenter.getComment());
+        assertEquals("Build was aborted.", commenter.getComment());
     }
 
     @Test
     public void testAddUserComment() {
         commenter.addUserComment("hello, world");
-        assertEquals("```\nhello, world\n```\n\n", commenter.getComment());
+        assertEquals("```\nlines=5\nhello, world\n```\n\n", commenter.getComment());
     }
 
     @Test
@@ -231,7 +231,7 @@ public class CommentBuilderTest {
     public void testAddUserCommentWithStatus() {
         commenter.processBuildResult(Result.SUCCESS, false, false, false);
         commenter.addUserComment("hello, world");
-        assertEquals("Build is green\n\n```\nhello, world\n```\n\n", commenter.getComment());
+        assertEquals("Successful build - Chance fights ever on the side of the prudent.\n\n```\nlines=5\nhello, world\n```\n\n", commenter.getComment());
     }
 
     @Test
@@ -244,7 +244,7 @@ public class CommentBuilderTest {
     public void testAddBuildLink() {
         commenter.addBuildLink();
         String comment = commenter.getComment();
-        assertTrue(comment.contains("for more details"));
+        assertTrue(comment.contains("Link to build"));
         assertTrue(comment.contains(FAKE_BUILD_URL));
     }
 
@@ -252,8 +252,8 @@ public class CommentBuilderTest {
     public void testAddBuildFailureMessage() {
         commenter.addBuildFailureMessage();
         String comment = commenter.getComment();
-        assertTrue(comment.contains("See console output"));
         assertTrue(comment.contains("Link to build"));
+        assertTrue(comment.contains(FAKE_BUILD_URL));
     }
 
     private CommentBuilder createCommenter(CodeCoverageMetrics coverage) {
